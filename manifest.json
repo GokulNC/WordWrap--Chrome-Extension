@@ -1,8 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Word Wrapper for textarea",
+  "name": "Word Wrapper -- Character-limit per line",
   "description": "WordWrap the selected text by clicking on the extension!",
-  "version": "0.1",
+  "author": "Gokul NC",
+  "short_name": "Word Wrapper",
+  "version": "0.3",
   "background": {
     "scripts": ["src/background.js"]
   },
