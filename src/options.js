@@ -3,11 +3,13 @@ function save_options() {
   var charCount = document.getElementById('charCount').value;
   charCount = parseInt(charCount);
   if (isNaN(charCount)) {
-	  alert('Please enter a proper integer');
+	  window.alert('Please enter a proper integer');
 	  return;
   }
+  var wrapOnlySelected = document.getElementById('wrapOnlySelected').checked;
   chrome.storage.sync.set({
-    charCount: charCount
+    charCount: charCount,
+	wrapOnlySelected: wrapOnlySelected
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -23,11 +25,14 @@ function save_options() {
 function restore_options() {
   // Use default values if not found
   chrome.storage.sync.get({
-    charCount: 72
+    charCount: 72,
+	wrapOnlySelected: false
   }, function(items) {
     document.getElementById('charCount').value = items.charCount;
+	document.getElementById('wrapOnlySelected').checked = items.wrapOnlySelected;
   });
 }
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
     save_options);

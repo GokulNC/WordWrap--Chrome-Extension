@@ -1,22 +1,27 @@
 var CHAR_COUNT = 72;
+var wrapOnlySelected = false;
 chrome.storage.sync.get({
-	charCount: 72
+	charCount: 72,
+	wrapOnlySelected: false
 	}, function(items) {
 	CHAR_COUNT = items.charCount;
+	wrapOnlySelected = items.wrapOnlySelected;
 });
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	for (var key in changes) {
-	  if (key === 'charCount') {
-		CHAR_COUNT = changes[key];
-	  }
+		if (key === 'charCount') {
+			CHAR_COUNT = changes[key];
+		} else if (key === 'wrapOnlySelected') {
+			wrapOnlySelected = changes[key];
+		}
 	}
 });
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if( request.message === "clicked_browser_action" ) {
-	  wordWrapTextArea();
+	  wordWrapCore(CHAR_COUNT);
     }
   }
 );
@@ -26,8 +31,26 @@ const wordWrap = (s, w) => s.replace(
 	new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, 'g'), '$1\n'
 );
 
-function wordWrapTextArea() {
-	alert('test');
+function wordWrapTextArea(textarea, char_count) {
+	textarea.focus();
+	var begin = textarea.selectionStart;
+	var end = textarea.selectionEnd;
+	if (begin == end && !wrapOnlySelected) {
+		// WordWrap the full text if no selection
+		textarea.selectionStart = begin = 0;
+		textarea.selectionEnd = end = textarea.value.length;
+		// if(!document.execCommand('selectAll', false)) {
+			// texarea.select();
+		// }
+	}
+	var target = textarea.value.slice(begin, end);
+	var finalText = wordWrap(target, char_count);
+	if (!document.execCommand('insertText', false, finalText)) {
+		textarea.setRangeText(finalText);
+	}
+}
+
+function wordWrapCore(char_count) {
 	var activeEl = document.activeElement;
 	var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
 	
@@ -38,19 +61,14 @@ function wordWrapTextArea() {
 			activeEl = elements[0];
 			activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
 		} else {
-			alert("No unambiguous textarea found inside iframe");
+			window.alert("No unambiguous textarea found inside iframe");
 			return;
 		}
 	}
 	
 	if (activeElTagName == "textarea" && typeof activeEl.selectionStart == "number") {
-		var fullText = activeEl.value;
-        var startStr = fullText.slice(0, activeEl.selectionStart);
-        var text = fullText.slice(activeEl.selectionStart, activeEl.selectionEnd);
-        var endStr = fullText.slice(activeEl.selectionEnd, fullText.length);
-		var result = wordWrap(text, CHAR_COUNT);
-		activeEl.value = startStr + result + endStr;
+		wordWrapTextArea(activeEl, char_count);
 	} else {
-		alert("Please choose a texarea to wordWrap!");
+		window.alert("Please choose a texarea to wordWrap!");
 	}
 }
