@@ -11,7 +11,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["src/content.js"]
+      "js": ["src/textarea.js", "src/content_editable.js", "src/main.js"]
     }
   ],
   "browser_action": {
