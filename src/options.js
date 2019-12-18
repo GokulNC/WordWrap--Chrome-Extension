@@ -7,9 +7,11 @@ function save_options() {
 	  return;
   }
   var wrapOnlySelected = document.getElementById('wrapOnlySelected').checked;
+  var wrapContentEditable = document.getElementById('wrapContentEditable').checked;
   chrome.storage.sync.set({
     charCount: charCount,
-	wrapOnlySelected: wrapOnlySelected
+	wrapOnlySelected: wrapOnlySelected,
+	wrapContentEditable: wrapContentEditable
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -26,10 +28,12 @@ function restore_options() {
   // Use default values if not found
   chrome.storage.sync.get({
     charCount: 72,
-	wrapOnlySelected: false
+	wrapOnlySelected: false,
+	wrapContentEditable: true
   }, function(items) {
     document.getElementById('charCount').value = items.charCount;
 	document.getElementById('wrapOnlySelected').checked = items.wrapOnlySelected;
+	document.getElementById('wrapContentEditable').checked = items.wrapContentEditable;
   });
 }
 
