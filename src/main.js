@@ -36,13 +36,17 @@ function wordWrapCore(char_count) {
 	
 	// If the selection is an iframe, check if it has an editable element
 	if (activeElTagName == "iframe") {
+		if (!activeEl.contentDocument) {
+			window.alert("Unable to access the contents of iframe!\n(Possibly due to cross-origin)");
+			return;
+		}
 		var elements = activeEl.contentDocument.getElementsByTagName("textarea");
-		if (elements.length == 1) {
+		if (elements && elements.length == 1) {
 			activeEl = elements[0];
 			activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
 		} else {
 			elements = activeEl.contentDocument.querySelector('[contenteditable]');
-			if (elements.length == 1) {
+			if (elements && elements.length == 1) {
 				activeEl = elements[0];
 				activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
 			}
@@ -61,6 +65,6 @@ function wordWrapCore(char_count) {
 		else
 			window.alert("ContentEditable fields wrapping support is experimental!\n(Can be enabled from extension options)");
 	} else {
-		window.alert("Please choose a texarea to wordWrap!");
+		window.alert("Please choose a textarea to wordWrap!");
 	}
 }

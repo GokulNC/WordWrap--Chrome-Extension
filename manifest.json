@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Word Wrapper -- Character-limit per line",
+  "name": "Word Wrapper (Beta) -- Character-limit per line",
   "description": "WordWrap the selected text by clicking on the extension!",
   "author": "Gokul NC",
   "short_name": "Word Wrapper",
-  "version": "0.3",
+  "version": "0.31",
   "background": {
     "scripts": ["src/background.js"]
   },
@@ -19,11 +19,12 @@
   "browser_action": {
     "default_icon": "icons/icon25.png"
   },
-  "icons": { "16": "icons/icon16.png",
-			"48": "icons/icon48.png",
-			"128": "icons/icon128.png" },
+  "icons": {  "16": "icons/icon16.png",
+              "48": "icons/icon48.png",
+              "128": "icons/icon128.png"
+  },
   "options_page": "src/options.html",
-  "permissions": ["storage"],
+  "permissions": ["activeTab", "storage"],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {

@@ -1,4 +1,6 @@
-## Word Wrap Selected TextArea -- Chrome Extension
+## Word Wrap Selected TextArea -- Chrome Extension <Beta>
+
+[![Install from Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_340x96.png)](https://chrome.google.com/webstore/detail/word-wrapper-character-li/mdmmkekkjphhfdknioijnfpdicdnmeab)
 
 ### What does it do?
 Whenever you select a block of text that you have typed and click on the WordWrap extension,
@@ -16,6 +18,14 @@ Will be useful in scenarios where you want to introduce a character-limit per li
 
 ### Support / Docs
 [Bugs](docs/Bugs.md) | [Contributors](docs/Contributors.md) | [References](docs/References.md) | [ToDo](docs/ToDo.md)
+
+### Screenshots
+
+#### Demo Usage
+![Demo Usage](icons/Chrome-WebStore/demoScreen.png)
+
+#### Options page
+![Options Page](icons/Chrome-WebStore/optionsScreen.png)
 
 ### Contributions
 Please feel free to contribute by raising a PR or an issue.  
